@@ -1,6 +1,6 @@
 # AI-LOG — Parcial Mi Tienda
 
-**Estudiante:** Edgar Zuñiga · **Herramienta:** Claude Code (asistente de IA)
+**Estudiante:** Edgar Junior Zuñiga Diazgranados (0182210067) · **Herramienta:** Claude Code (asistente de IA)
 
 ## Prompts usados
 

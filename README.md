@@ -2,8 +2,8 @@
 
 App móvil de inventario para una tienda de barrio (Doña Rosa, Riohacha). Funciona **sin internet** con SQLite y respalda en **Supabase** cuando hay conexión.
 
-- **Estudiante:** Edgar Zuñiga
-- **Código:** _(escribir aquí tu código estudiantil)_
+- **Estudiante:** Edgar Junior Zuñiga Diazgranados
+- **Código:** 0182210067
 - **Stack:** Expo SDK 58 · TypeScript · Expo Router · SQLite + Drizzle ORM · Supabase (Auth + Postgres) · expo-secure-store · Reanimated
 
 ## Cómo ejecutar
