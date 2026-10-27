@@ -62,7 +62,15 @@ function RootNavigator() {
         <Stack.Screen name="index" />
         <Stack.Screen
           name="producto"
-          options={{ headerShown: true, title: 'Producto', presentation: 'card' }}
+          options={{
+            headerShown: true,
+            title: 'Producto',
+            presentation: 'card',
+            headerTransparent: false,
+            headerShadowVisible: false,
+            headerStyle: { backgroundColor: colors.background },
+            headerTintColor: colors.primaryDark,
+          }}
         />
       </Stack.Protected>
       <Stack.Protected guard={!session}>

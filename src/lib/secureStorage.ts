@@ -19,6 +19,7 @@ async function getItem(key: string): Promise<string | null> {
   const rawCount = await SecureStore.getItemAsync(countKey(key));
   if (rawCount == null) return null;
   const count = Number(rawCount);
+  if (!(count > 0)) return null; // marcador vacío de una escritura fallida
   let value = '';
   for (let i = 0; i < count; i++) {
     const part = await SecureStore.getItemAsync(chunkKey(key, i));
@@ -30,12 +31,28 @@ async function getItem(key: string): Promise<string | null> {
 
 async function setItem(key: string, value: string): Promise<void> {
   await removeItem(key);
-  const chunks = value.match(new RegExp(`[\s\S]{1,${CHUNK_SIZE}}`, 'g')) ?? [];
+  const chunks: string[] = [];
+  for (let start = 0; start < value.length; start += CHUNK_SIZE) {
+    chunks.push(value.slice(start, start + CHUNK_SIZE));
+  }
   for (let i = 0; i < chunks.length; i++) {
     await SecureStore.setItemAsync(chunkKey(key, i), chunks[i]);
   }
   await SecureStore.setItemAsync(countKey(key), String(chunks.length));
 }
 
+// Cola: las operaciones se ejecutan una tras otra para que dos escrituras
+// seguidas no mezclen fragmentos de sesiones distintas.
+let queue: Promise<unknown> = Promise.resolve();
+function serialized<T>(task: () => Promise<T>): Promise<T> {
+  const run = queue.then(task, task);
+  queue = run.catch(() => undefined);
+  return run;
+}
+
 /** Adaptador compatible con la opción auth.storage de supabase-js. */
-export const secureStorage = { getItem, setItem, removeItem };
+export const secureStorage = {
+  getItem: (key: string) => serialized(() => getItem(key)),
+  setItem: (key: string, value: string) => serialized(() => setItem(key, value)),
+  removeItem: (key: string) => serialized(() => removeItem(key)),
+};

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Alert, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { router, Stack, useLocalSearchParams } from 'expo-router';
 import { AnimatedEntrance, AnimatedPressable } from '@/components/Animated';
 import { Field } from '@/components/Field';
@@ -12,6 +13,7 @@ type Errors = { name?: string; quantity?: string; price?: string };
 
 export default function ProductoScreen() {
   const { id } = useLocalSearchParams<{ id?: string }>();
+  const insets = useSafeAreaInsets();
   const productId = id ? Number(id) : null;
   const editing = productId !== null;
 
@@ -62,9 +64,20 @@ export default function ProductoScreen() {
   };
 
   return (
-    <KeyboardAvoidingView style={styles.flex} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+    <KeyboardAvoidingView
+      style={styles.flex}
+      behavior={Platform.OS === 'android' ? 'padding' : undefined}
+    >
       <Stack.Screen options={{ title: editing ? 'Editar producto' : 'Nuevo producto' }} />
-      <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
+      <ScrollView
+        style={styles.flex}
+        contentContainerStyle={[styles.content, { paddingBottom: insets.bottom + 24 }]}
+        contentInsetAdjustmentBehavior="automatic"
+        automaticallyAdjustKeyboardInsets
+        keyboardDismissMode="on-drag"
+        keyboardShouldPersistTaps="handled"
+        bounces={false}
+      >
         <AnimatedEntrance style={styles.form}>
           <Field
             label="Nombre"
