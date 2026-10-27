@@ -66,6 +66,7 @@ function RootNavigator() {
             headerShown: true,
             title: 'Producto',
             presentation: 'card',
+            headerBackTitle: 'Inventario',
             headerTransparent: false,
             headerShadowVisible: false,
             headerStyle: { backgroundColor: colors.background },
