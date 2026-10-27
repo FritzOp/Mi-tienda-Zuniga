@@ -12,7 +12,7 @@ App móvil de inventario para una tienda de barrio (Doña Rosa, Riohacha). Funci
    ```bash
    npm install
    ```
-2. Crea el archivo `.env` en la raíz (solo la **publishable key**, nunca la secret key):
+2. Crea el archivo `.env` a partir de `.env.example` (solo la **publishable key**, nunca la secret key):
    ```env
    EXPO_PUBLIC_SUPABASE_URL=https://tu-proyecto.supabase.co
    EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY=sb_publishable_...
